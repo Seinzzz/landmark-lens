@@ -75,11 +75,13 @@ export default function Scanner({ onImageSelected }: ScannerProps) {
           </span>
         </div>
       </nav>
+
+      {/* Main Content */}
       <div
         className="relative z-10 animate-appear"
         style={{ animationDelay: "0.4s" }}
       >
-        <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center space-y-10 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_8px_40px_0_rgba(0,0,0,0.45)] backdrop-blur-3xl transition-all duration-500 hover:border-white/20 hover:bg-white/10 md:p-16">
+        <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center space-y-10 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_8px_40px_0_rgba(0,0,0,0.45)] backdrop-blur-3xl transition-all duration-500 hover:border-white/20 hover:bg-white/10 lg:p-16">
           <div className="pointer-events-none absolute left-0 top-0 h-1/2 w-full bg-gradient-to-b from-white/5 to-transparent"></div>
 
           <div className="relative z-10 space-y-6">
@@ -89,14 +91,14 @@ export default function Scanner({ onImageSelected }: ScannerProps) {
               </span>
             </div>
 
-            <h1 className="text-5xl font-bold leading-[0.9] tracking-tighter text-white drop-shadow-xl md:text-8xl">
+            <h1 className="text-5xl font-bold leading-[0.9] tracking-tighter text-white drop-shadow-xl md:text-7xl lg:text-8xl">
               Landmark <br />
               <span className="bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
                 Lens
               </span>
             </h1>
 
-            <p className="mx-auto max-w-lg text-sm font-light leading-relaxed tracking-wide text-gray-300 md:text-lg">
+            <p className="mx-auto max-w-lg text-sm font-light leading-relaxed tracking-wide text-gray-300 lg:text-lg">
               Upload a landmark photo. Our AI pinpoints the place, verifies the
               facts, and turns the history into a real-time story made just for
               you.
@@ -126,9 +128,11 @@ export default function Scanner({ onImageSelected }: ScannerProps) {
           style={{ animationDelay: "1s" }}
         ></div>
       </div>
+
+      {/* Footer Labels */}
       <div className="absolute bottom-10 flex w-full justify-center">
         <div
-          className="flex animate-appear gap-8 font-mono text-[10px] uppercase tracking-widest text-white/40 md:gap-16"
+          className="flex animate-appear gap-8 px-4 font-mono text-[10px] uppercase tracking-widest text-white/40 md:gap-16"
           style={{ animationDelay: "0.8s" }}
         >
           <div className="flex items-center gap-2">
