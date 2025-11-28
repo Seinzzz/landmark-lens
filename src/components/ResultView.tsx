@@ -108,7 +108,7 @@ const ResultView = ({ result, imageSrc, onReset }: ResultViewProps) => {
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#08090A] text-white selection:bg-white/20">
       {/* 1. Immersive Background Layer */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0">
         <Image
           src={imageSrc}
           alt="Background"
@@ -130,10 +130,11 @@ const ResultView = ({ result, imageSrc, onReset }: ResultViewProps) => {
       </div>
 
       {/* 2. Top Navigation Bar */}
-      <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between px-6 py-6">
+      <div className="absolute left-0 right-0 top-0 flex items-center justify-between px-6 py-6">
         <button
+          type="button"
           onClick={onReset}
-          className="group flex items-center space-x-2 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-medium backdrop-blur-md transition-all hover:border-white/20 hover:bg-white/10"
+          className="group z-10 flex items-center space-x-2 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-medium backdrop-blur-md transition-all hover:border-white/20 hover:bg-white/10"
         >
           <ArrowLeft className="h-4 w-4 text-gray-400 transition-colors group-hover:text-white" />
           <span className="text-gray-300 group-hover:text-white">Scan New</span>
@@ -148,7 +149,7 @@ const ResultView = ({ result, imageSrc, onReset }: ResultViewProps) => {
       </div>
 
       {/* 3. Main Content Area */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 flex h-full flex-col justify-end">
+      <div className="absolute bottom-0 left-0 right-0 flex h-full flex-col justify-end">
         {/* Container */}
         <div className="mx-auto w-full max-w-2xl px-6 pb-8 pt-20">
           {/* Title Section */}
@@ -199,7 +200,7 @@ const ResultView = ({ result, imageSrc, onReset }: ResultViewProps) => {
             </div>
 
             {/* Description Area */}
-            <div className="custom-scrollbar max-h-[35vh] overflow-y-auto p-6">
+            <div className="glass-scroll max-h-[35vh] overflow-y-auto p-6">
               <article className="prose prose-sm prose-invert max-w-none md:prose-base">
                 {/* Custom styling for react-markdown to match Linear aesthetic */}
                 <ReactMarkdown
