@@ -34,7 +34,8 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        throw new Error(response.statusText || "Analysis failed");
+        const errData = await response.json();
+        throw new Error(errData.error || "Analysis failed");
       }
 
       const data: AnalysisResponse = await response.json();
@@ -57,7 +58,7 @@ export default function Home() {
 
       setAppState(AppState.RESULT);
     } catch (err: unknown) {
-      console.error(err);
+      // console.error("catch error:", err);
       let message = "An unexpected error occurred.";
       if (err instanceof Error) {
         message = err.message;

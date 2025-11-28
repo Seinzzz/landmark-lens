@@ -47,8 +47,6 @@ export async function POST(request: Request) {
       audioBase64,
     });
   } catch (error: unknown) {
-    console.error("API Error:", error);
-
     let errorMessage = "Internal Server Error";
     if (error instanceof Error) {
       errorMessage = error.message;
@@ -59,10 +57,11 @@ export async function POST(request: Request) {
       errorMessage.includes("Rpc failed") ||
       errorMessage.includes("xhr error") ||
       errorMessage.includes("ProxyUnaryCall") ||
-      errorMessage.includes("failed to fetch")
+      errorMessage.includes("failed to fetch") ||
+      errorMessage.includes("404")
     ) {
       errorMessage =
-        "We encountered a connection issue with the AI service. Please check your internet or try a different image.";
+        "We encountered a connection issue with the AI service. Please try again shortly.";
     } else if (
       errorMessage.includes("503") ||
       errorMessage.includes("Overloaded")
