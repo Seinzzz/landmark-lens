@@ -1,1 +1,3 @@
-export default { extends: ["@commitlint/config-conventional"] };
+const rules = { extends: ["@commitlint/config-conventional"] };
+
+export default rules;

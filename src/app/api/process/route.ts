@@ -58,7 +58,8 @@ export async function POST(request: Request) {
       errorMessage.includes("xhr error") ||
       errorMessage.includes("ProxyUnaryCall") ||
       errorMessage.includes("failed to fetch") ||
-      errorMessage.includes("404")
+      errorMessage.includes("404") ||
+      errorMessage.includes("429")
     ) {
       errorMessage =
         "We encountered a connection issue with the AI service. Please try again shortly.";

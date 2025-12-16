@@ -1,5 +1,5 @@
 {
-  "name": "LandmarkLens",
+  "name": "Landmark Lens",
   "description": "An AI-powered photo tourism app that identifies landmarks, fetches historical context via Google Search, and provides an immersive audio guide.",
   "requestFramePermissions": ["camera", "microphone"]
 }

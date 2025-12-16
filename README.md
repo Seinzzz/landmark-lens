@@ -31,7 +31,7 @@ A simple modern web application to detect landmarks from images and automaticall
     Create a `.env.local` file and add your API key:key:
 
     ```env
-    GOOGLE_API_KEY=your_gemini_api_key
+    GEMINI_API_KEY=your_gemini_api_key
     ```
 
 3.  **Run Development Server**

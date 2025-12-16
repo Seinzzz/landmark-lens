@@ -31,7 +31,7 @@ Aplikasi web modern sederhana untuk mendeteksi landmark dari gambar dan menghasi
     Buat file `.env.local` dan masukkan API Key:
 
     ```env
-    GOOGLE_API_KEY=your_gemini_api_key
+    GEMINI_API_KEY=your_gemini_api_key
     ```
 
 3.  **Run Development Server**
