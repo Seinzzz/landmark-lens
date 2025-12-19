@@ -79,6 +79,9 @@ export async function POST(request: Request) {
       // Catch-all for the specific array error in the prompt
       errorMessage =
         "The AI was unable to process this specific image. It may be unsupported or corrupted.";
+    } else {
+      errorMessage =
+        "We encountered a issue with the AI service. Please try again shortly.";
     }
 
     return NextResponse.json({ error: errorMessage }, { status: 500 });
