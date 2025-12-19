@@ -4,28 +4,21 @@ import { FileImage } from "lucide-react";
 import { useRef, useState } from "react";
 
 interface ScannerProps {
-  onImageSelected: (base64: string, mimeType: string) => void;
+  onImageSelected: (file: File) => void;
 }
 
 export default function Scanner({ onImageSelected }: ScannerProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragActive, setDragActive] = useState(false);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      processFile(e.target.files[0]);
-    }
+  const handleFile = (file: File) => {
+    onImageSelected(file);
   };
 
-  const processFile = (file: File) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const result = reader.result as string;
-      const base64Content = result.split(",")[1];
-      const mimeType = result.split(";")[0].split(":")[1];
-      onImageSelected(base64Content, mimeType);
-    };
-    reader.readAsDataURL(file);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files[0]) {
+      handleFile(e.target.files[0]);
+    }
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -45,7 +38,7 @@ export default function Scanner({ onImageSelected }: ScannerProps) {
     setDragActive(false);
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      processFile(e.dataTransfer.files[0]);
+      handleFile(e.dataTransfer.files[0]);
     }
   };
 
@@ -155,6 +148,7 @@ export default function Scanner({ onImageSelected }: ScannerProps) {
           </div>
         </div>
       </div>
+
       <input
         type="file"
         ref={fileInputRef}

@@ -5,23 +5,30 @@ import {
   generateTourScript,
   generateTourAudio,
 } from "@/services/geminiService";
+import { normalizeAIError, PUBLIC_ERROR_MESSAGES } from "@/helper/errorHandler";
 
 export const maxDuration = 60; // Allow longer timeout for chaining models
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { image, mimeType } = body;
+    const formData = await request.formData();
 
-    if (!image || !mimeType) {
-      return NextResponse.json(
-        { error: "Image data missing" },
-        { status: 400 },
-      );
+    const fileEntry = formData.get("image");
+    if (!(fileEntry instanceof File)) {
+      return NextResponse.json({ error: "No image file" }, { status: 400 });
     }
 
+    const file = fileEntry;
+    const mimeType = file.type;
+
+    // baca file sebagai array buffer
+    const arrayBuffer = await file.arrayBuffer();
+
+    // convert ke base64
+    const base64 = Buffer.from(arrayBuffer).toString("base64");
+
     // Step 1: Identify
-    const landmarkName = await identifyLandmark(image, mimeType);
+    const landmarkName = await identifyLandmark(base64, mimeType);
     if (landmarkName === "Unknown") {
       return NextResponse.json(
         {
@@ -47,43 +54,12 @@ export async function POST(request: Request) {
       audioBase64,
     });
   } catch (error: unknown) {
-    let errorMessage = "Internal Server Error";
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-
-    // Sanitize raw Google RPC/XHR errors
-    if (
-      errorMessage.includes("Rpc failed") ||
-      errorMessage.includes("xhr error") ||
-      errorMessage.includes("ProxyUnaryCall") ||
-      errorMessage.includes("failed to fetch") ||
-      errorMessage.includes("404") ||
-      errorMessage.includes("429")
-    ) {
-      errorMessage =
-        "We encountered a connection issue with the AI service. Please try again shortly.";
-    } else if (
-      errorMessage.includes("503") ||
-      errorMessage.includes("Overloaded")
-    ) {
-      errorMessage =
-        "The AI system is currently experiencing high traffic. Please try again in a few moments.";
-    } else if (
-      errorMessage.includes("SAFETY") ||
-      errorMessage.includes("blocked")
-    ) {
-      errorMessage =
-        "This image could not be processed due to safety guidelines. Please try a different photo.";
-    } else if (errorMessage.includes("[0]")) {
-      // Catch-all for the specific array error in the prompt
-      errorMessage =
-        "The AI was unable to process this specific image. It may be unsupported or corrupted.";
-    } else {
-      errorMessage =
-        "We encountered a issue with the AI service. Please try again shortly.";
-    }
-
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    // Handle errors gracefully
+    const rawMessage = error instanceof Error ? error.message : "Unknown Error";
+    const { code, status } = normalizeAIError(rawMessage);
+    return NextResponse.json(
+      { error: PUBLIC_ERROR_MESSAGES[code] },
+      { status },
+    );
   }
 }

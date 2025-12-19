@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Scanner from "@/components/Scanner";
 import ProcessingView from "@/components/ProcessingView";
 import ResultView from "@/components/ResultView";
@@ -21,16 +21,19 @@ export default function Home() {
   );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleImageSelected = async (base64: string, mimeType: string) => {
-    setSelectedImage(`data:${mimeType};base64,${base64}`);
+  const handleImageSelected = async (file: File) => {
+    const previewUrl = URL.createObjectURL(file);
+    setSelectedImage(previewUrl);
     setAppState(AppState.ANALYZING);
     setErrorMsg(null);
 
     try {
+      const formData = new FormData();
+      formData.append("image", file);
+
       const response = await fetch("/api/process", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: base64, mimeType }),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -58,7 +61,6 @@ export default function Home() {
 
       setAppState(AppState.RESULT);
     } catch (err: unknown) {
-      // console.error("catch error:", err);
       let message = "An unexpected error occurred.";
       if (err instanceof Error) {
         message = err.message;
@@ -67,6 +69,15 @@ export default function Home() {
       setAppState(AppState.ERROR);
     }
   };
+
+  // Cleanup object URL on unmount or image change
+  useEffect(() => {
+    return () => {
+      if (selectedImage?.startsWith("blob:")) {
+        URL.revokeObjectURL(selectedImage);
+      }
+    };
+  }, [selectedImage]);
 
   const resetApp = () => {
     setAppState(AppState.IDLE);
