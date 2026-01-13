@@ -33,9 +33,9 @@ const PUBLIC_ERROR_MESSAGES: Record<string, string> = {
   AI_CONNECTION:
     "We encountered a connection issue with the AI service. Please try again shortly.",
   AI_RATE_LIMIT:
-    "The system is temporarily under heavy load. Please try again in a few seconds.",
+    "The AI service is currently rate limited. Please try again shortly.",
   AI_OVERLOADED:
-    "The system is temporarily under heavy load. Please try again in a few seconds.",
+    "The AI service is currently overloaded. Please try again shortly.",
   AI_SAFETY:
     "This image could not be processed due to safety guidelines. Please try a different photo.",
   AI_UNSUPPORTED_IMAGE:
